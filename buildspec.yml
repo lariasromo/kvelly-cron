@@ -16,14 +16,4 @@ phases:
   build:
     on-failure: ABORT
     commands:
-      - |
-        export BRANCH="${CODEBUILD_WEBHOOK_TRIGGER//"branch/"}"
-        echo "${BRANCH}"
-        if [ "${BRANCH}" = "master" ] ; then
-          echo "Deploying prod"
-          serverless deploy
-        else
-          echo "Deploying stage ${BRANCH}"
-          serverless deploy --stage "${BRANCH}"
-        fi
-      
+      - serverless deploy
