@@ -1,0 +1,24 @@
+org: lariasromo
+service: cron
+app: cron
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: 'us-east-1'
+  timeout: 900 # in seconds
+  stage: v1
+  environment:
+    URL1: https://7syfyc7oj1.execute-api.us-east-1.amazonaws.com/stage
+    URL2: https://7syfyc7oj1.execute-api.us-east-1.amazonaws.com/prod
+    URL3: https://nm49ow4rm7.execute-api.us-east-1.amazonaws.com/testnet
+    URL4: https://nm49ow4rm7.execute-api.us-east-1.amazonaws.com/prod
+  ecr:
+    images:
+      cron-image:
+        path: ./
+functions:
+  transfer:
+    image: cron-image
+    events:
+      - schedule: rate(5 minutes)
