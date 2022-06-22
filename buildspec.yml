@@ -16,4 +16,9 @@ phases:
   build:
     on-failure: ABORT
     commands:
-      - serverless deploy
+      - |
+        if [ "$CODEBUILD_SOURCE_VERSION" = "master" ] ; then
+          serverless deploy
+        else
+          serverless deploy --stage $CODEBUILD_SOURCE_VERSION
+        fi
