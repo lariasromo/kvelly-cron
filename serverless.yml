@@ -1,4 +1,3 @@
-org: lariasromo
 service: cron
 app: cron
 
