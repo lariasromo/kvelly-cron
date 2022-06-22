@@ -17,8 +17,13 @@ phases:
     on-failure: ABORT
     commands:
       - |
-        if [ "$CODEBUILD_SOURCE_VERSION" = "master" ] ; then
+        export BRANCH="${CODEBUILD_WEBHOOK_TRIGGER//"branch/"}"
+        echo "${BRANCH}"
+        if [ "${BRANCH}" = "master" ] ; then
+          echo "Deploying prod"
           serverless deploy
         else
-          serverless deploy --stage $CODEBUILD_SOURCE_VERSION
+          echo "Deploying stage ${BRANCH}"
+          serverless deploy --stage "${BRANCH}"
         fi
+      
