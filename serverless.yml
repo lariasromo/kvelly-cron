@@ -8,10 +8,10 @@ provider:
   timeout: 900 # in seconds
   stage: v1
   environment:
-    URL1: https://7syfyc7oj1.execute-api.us-east-1.amazonaws.com/stage
-    URL2: https://7syfyc7oj1.execute-api.us-east-1.amazonaws.com/prod
-    URL3: https://nm49ow4rm7.execute-api.us-east-1.amazonaws.com/testnet
-    URL4: https://nm49ow4rm7.execute-api.us-east-1.amazonaws.com/prod
+    URL1: https://mbilohwrsc.execute-api.us-east-1.amazonaws.com/prod
+    URL2: https://nm49ow4rm7.execute-api.us-east-1.amazonaws.com/testnet
+    URL3: https://k7cncyx2y1.execute-api.us-east-1.amazonaws.com/testnet
+    URL4: https://ssjvgofhv5.execute-api.us-east-1.amazonaws.com/prod
   ecr:
     images:
       cron-image:

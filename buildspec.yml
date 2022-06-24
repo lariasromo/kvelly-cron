@@ -1,19 +1,24 @@
 version: 0.2
 
-env:
-  shell: bash
-
 phases:
   install:
-    run-as: root
-    on-failure: ABORT
-    runtime-versions:
-      python: 3.7
     commands:
-      - apt-get update
-      - apt-get install -y npm
-      - npm install -g serverless
+      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
+      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
   build:
     on-failure: ABORT
     commands:
-      - serverless deploy
+      - |
+        export SERVERLESS_ACCESS_KEY=AK1BYSkMRkO3QJ4ZD8JwGxuTw6BDdxXJYeddegQCYhTl6
+
+        serverless plugin install -n serverless-stage-manager
+        export BRANCH=`echo "${CODEBUILD_WEBHOOK_TRIGGER//"branch/"}"| cut -c 2-`
+        echo "${CODEBUILD_WEBHOOK_TRIGGER}"
+        echo "${BRANCH}"
+        if [ "${BRANCH}" = "master" ] ; then
+          echo "Deploying prod"
+          serverless deploy
+        else
+          echo "Deploying stage ${BRANCH}"
+          serverless deploy --stage "${BRANCH}"
+        fi
