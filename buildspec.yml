@@ -10,15 +10,4 @@ phases:
     commands:
       - |
         export SERVERLESS_ACCESS_KEY=AK1BYSkMRkO3QJ4ZD8JwGxuTw6BDdxXJYeddegQCYhTl6
-
-        serverless plugin install -n serverless-stage-manager
-        export BRANCH=`echo "${CODEBUILD_WEBHOOK_TRIGGER//"branch/"}"| cut -c 2-`
-        echo "${CODEBUILD_WEBHOOK_TRIGGER}"
-        echo "${BRANCH}"
-        if [ "${BRANCH}" = "master" ] ; then
-          echo "Deploying prod"
-          serverless deploy
-        else
-          echo "Deploying stage ${BRANCH}"
-          serverless deploy --stage "${BRANCH}"
-        fi
+        serverless deploy
